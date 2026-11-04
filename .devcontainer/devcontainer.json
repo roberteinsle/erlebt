@@ -1,0 +1,13 @@
+{
+  "name": "erlebt",
+  "image": "mcr.microsoft.com/devcontainers/php:8.5",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": { "label": "erlebt" }
+  },
+  "postCreateCommand": "composer install && npm ci"
+}

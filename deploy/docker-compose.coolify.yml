@@ -1,0 +1,61 @@
+# Vorlage für Laravel-Apps in Coolify (Docker Compose Empty).
+# Für ein neues Projekt: Datei kopieren und nur den unteren Block anpassen.
+# Die Datenbank ist ein eigener Coolify-Service mit eigenem Backup und steht bewusst nicht hier.
+services:
+  app:
+    image: ${APP_IMAGE:-ghcr.io/roberteinsle/erlebt}:${APP_TAG:-latest}
+    pull_policy: always
+    environment:
+      # --- Für alle Laravel-Apps gleich ---
+      - APP_NAME=${APP_NAME}
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_KEY=${APP_KEY}
+      - APP_URL=${APP_URL}
+      - APP_LOCALE=de
+      - APP_FALLBACK_LOCALE=de
+      - LOG_CHANNEL=stderr
+      - DB_CONNECTION=${DB_CONNECTION:-pgsql}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SESSION_DRIVER=database
+      - SESSION_LIFETIME=${SESSION_LIFETIME:-43200}
+      - SESSION_SECURE_COOKIE=true
+      - CACHE_STORE=database
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
+
+      # --- Projektspezifisch: beim Kopieren anpassen ---
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY:-}
+      - MODEL_QUESTIONS=${MODEL_QUESTIONS:-anthropic/claude-haiku-5.5}
+      - MODEL_REVIEW=${MODEL_REVIEW:-anthropic/claude-sonnet-5.5}
+      - MAX_RUNS_PER_DAY=${MAX_RUNS_PER_DAY:-20}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - app-storage:/var/www/html/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/up"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+  # Vorlage für Apps mit Hintergrundjobs (erlebt braucht das nicht):
+  # worker:
+  #   image: ${APP_IMAGE:-ghcr.io/roberteinsle/erlebt}:${APP_TAG:-latest}
+  #   pull_policy: always
+  #   command: php artisan queue:work --tries=3 --timeout=120
+  #   environment:
+  #     - AUTORUN_ENABLED=false
+  #     # dieselben Variablen wie bei app
+  #   volumes:
+  #     - app-storage:/var/www/html/storage
+  #   depends_on:
+  #     - app
+
+volumes:
+  app-storage:

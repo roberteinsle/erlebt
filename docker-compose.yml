@@ -1,0 +1,39 @@
+# Nur für die Entwicklung: App mit eingebundenem Code plus lokale Datenbank.
+# Vorher: cp .env.example .env, Werte eintragen, composer install, npm ci && npm run build.
+services:
+  app:
+    image: serversideup/php:8.5-fpm-nginx-alpine
+    env_file: .env
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - AUTORUN_ENABLED=true
+      - AUTORUN_LARAVEL_MIGRATION=true
+      - AUTORUN_LARAVEL_CONFIG_CACHE=false
+      - AUTORUN_LARAVEL_EVENT_CACHE=false
+      - AUTORUN_LARAVEL_ROUTE_CACHE=false
+      - AUTORUN_LARAVEL_VIEW_CACHE=false
+      - AUTORUN_LARAVEL_OPTIMIZE=false
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=${DB_DATABASE:-erlebt}
+      - POSTGRES_USER=${DB_USERNAME:-erlebt}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-erlebt}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-erlebt}"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  db-data:

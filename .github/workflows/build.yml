@@ -1,0 +1,89 @@
+name: Build & Push
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  schedule:
+    - cron: '17 4 * * 1'   # wöchentlich: neueste PHP-Patches übernehmen
+  workflow_dispatch:
+    inputs:
+      no_cache:
+        description: 'Ohne Cache bauen (Sicherheits-Update)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # Das Repo ist öffentlich und main geht direkt live: Beide Prüfungen müssen vor dem Build grün sein.
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_sqlite
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - run: cp .env.example .env
+      - run: vendor/bin/pest
+
+  build:
+    needs: [secrets, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          pull: true                      # Base-Image immer frisch (neuester PHP-Patch)
+          no-cache: ${{ inputs.no_cache == true }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: PHP-Version im Image ausgeben
+        run: docker run --rm --entrypoint php ${{ fromJSON(steps.meta.outputs.json).tags[0] }} -v
+
+      # Über die Repository-Variable AUTO_DEPLOY schaltbar.
+      - name: Trigger Coolify deploy
+        if: github.ref == 'refs/heads/main' && vars.AUTO_DEPLOY == 'true'
+        env:
+          COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        run: curl -fsS -X GET "$COOLIFY_WEBHOOK" -H "Authorization: Bearer $COOLIFY_TOKEN"
