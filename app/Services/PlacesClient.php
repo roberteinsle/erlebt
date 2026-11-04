@@ -24,6 +24,16 @@ class PlacesClient
         return $this->details($this->searchId($query, $latitude, $longitude));
     }
 
+    /** Günstigste Abfrage (nur IDs): prüft Schlüssel und API-Freischaltung. */
+    public function ping(): void
+    {
+        $this->request('places.id', fn (PendingRequest $http) => $http->post(self::BASE_URL.'/places:searchText', [
+            'textQuery' => 'Berlin',
+            'languageCode' => 'de',
+            'pageSize' => 1,
+        ]));
+    }
+
     private function searchId(string $query, ?float $latitude, ?float $longitude): string
     {
         $body = ['textQuery' => $query, 'languageCode' => 'de', 'pageSize' => 1];
@@ -85,7 +95,7 @@ class PlacesClient
         if ($response->failed()) {
             report(new \RuntimeException('Places API: HTTP '.$response->status().' '.$response->body()));
 
-            throw new UserFacingException('Die Abfrage bei Google ist fehlgeschlagen (Status '.$response->status().').');
+            throw new UserFacingException(trim('Die Abfrage bei Google ist fehlgeschlagen (Status '.$response->status().'). '.$response->json('error.message')));
         }
 
         return $response->json() ?? [];

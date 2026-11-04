@@ -3,6 +3,7 @@
 namespace Tests\Support;
 
 use Anthropic\Client;
+use App\Services\ClaudeClient;
 use Closure;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Client\ClientInterface;
@@ -25,10 +26,9 @@ class FakeClaude implements ClientInterface
     {
         $fake = new self($reply);
 
-        app()->instance(Client::class, new Client(
-            apiKey: 'test',
-            requestOptions: ['transporter' => $fake, 'maxRetries' => 0],
-        ));
+        $client = new Client(apiKey: 'test', requestOptions: ['transporter' => $fake, 'maxRetries' => 0]);
+        app()->instance(Client::class, $client);
+        app()->instance(ClaudeClient::QUICK_CLIENT, $client);
 
         return $fake;
     }

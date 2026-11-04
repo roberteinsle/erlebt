@@ -5,6 +5,7 @@ use App\Livewire\Login;
 use App\Livewire\ReviewHistory;
 use App\Livewire\ReviewShow;
 use App\Livewire\ReviewWizard;
+use App\Livewire\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/bewertungen', ReviewHistory::class)->name('reviews.index');
     Route::livewire('/bewertungen/{review}', ReviewShow::class)->name('reviews.show');
     Route::get('/bewertungen/{review}/markdown', ReviewMarkdownController::class)->name('reviews.markdown');
+
+    Route::livewire('/einstellungen', Settings::class)->name('settings');
 
     Route::post('/logout', function (Request $request) {
         Auth::logout();

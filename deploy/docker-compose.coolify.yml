@@ -33,6 +33,7 @@ services:
       - MODEL_QUESTIONS=${MODEL_QUESTIONS:-claude-haiku-5-5}
       - MODEL_REVIEW=${MODEL_REVIEW:-claude-sonnet-5-5}
       - MAX_RUNS_PER_DAY=${MAX_RUNS_PER_DAY:-20}
+      # Werden bei jedem Deploy übernommen.
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     networks:

@@ -23,6 +23,7 @@ RUN composer dump-autoload --optimize --no-dev
 FROM serversideup/php:${PHP_VERSION}-fpm-nginx-alpine
 ENV AUTORUN_ENABLED=true \
     AUTORUN_LARAVEL_MIGRATION=true \
+    AUTORUN_LARAVEL_MIGRATION_SEED=true \
     PHP_OPCACHE_ENABLE=1
 USER root
 RUN install-php-extensions intl gd zip bcmath pdo_pgsql pdo_mysql

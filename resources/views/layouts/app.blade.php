@@ -14,6 +14,7 @@
             @auth
                 <nav class="flex items-center gap-4 text-sm text-stone-600">
                     <a href="{{ route('reviews.index') }}" class="py-2 hover:text-stone-900">Verlauf</a>
+                    <a href="{{ route('settings') }}" class="py-2 hover:text-stone-900">Einstellungen</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="py-2 hover:text-stone-900">Abmelden</button>

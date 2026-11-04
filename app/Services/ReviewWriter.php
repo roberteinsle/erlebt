@@ -31,7 +31,7 @@ class ReviewWriter
     - Gib nur den fertigen Text aus, ohne Überschrift, Anführungszeichen oder Kommentar.
     PROMPT;
 
-    public function __construct(private ClaudeClient $claude) {}
+    public function __construct(private ClaudeClient $claude, private ModelSettings $models) {}
 
     /** @param list<array{frage: string, antwort: string}> $answers */
     public function write(string $placeName, array $answers, int $stars, string $length, string $tone): string
@@ -52,7 +52,7 @@ class ReviewWriter
 
     public function model(): string
     {
-        return config('erlebt.models.review');
+        return $this->models->review();
     }
 
     private function send(string $system, string $user): string

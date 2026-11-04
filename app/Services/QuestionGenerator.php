@@ -52,7 +52,7 @@ class QuestionGenerator
         ['frage' => 'Wie fandest du das Preis-Leistungs-Verhältnis?', 'warum' => 'Hilft anderen bei der Entscheidung.', 'beispiel' => 'Fair für die Qualität'],
     ];
 
-    public function __construct(private ClaudeClient $claude) {}
+    public function __construct(private ClaudeClient $claude, private ModelSettings $models) {}
 
     /** @return list<array{frage: string, warum: string, beispiel: string}> */
     public function generate(Place $place): array
@@ -66,7 +66,7 @@ class QuestionGenerator
             }
 
             try {
-                $content = $this->claude->complete(config('erlebt.models.questions'), self::SYSTEM_PROMPT, $this->userPrompt($place), self::SCHEMA);
+                $content = $this->claude->complete($this->models->questions(), self::SYSTEM_PROMPT, $this->userPrompt($place), self::SCHEMA);
             } catch (UserFacingException) {
                 break;
             }
