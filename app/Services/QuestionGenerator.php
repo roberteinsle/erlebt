@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Support\ForeignReviews;
 use App\Support\Place;
 use App\Support\UserFacingException;
 
@@ -83,10 +84,7 @@ class QuestionGenerator
 
     private function userPrompt(Place $place): string
     {
-        // Spitze Klammern entfernen, damit fremder Text den Daten-Abschnitt nicht verlassen kann.
-        $reviews = collect($place->reviews)
-            ->map(fn (string $text) => '- '.str_replace(['<', '>'], ' ', $text))
-            ->implode("\n");
+        $reviews = ForeignReviews::format($place->reviews);
 
         return implode("\n", array_filter([
             'Ort: '.$place->name,

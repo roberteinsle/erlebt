@@ -40,7 +40,7 @@
         </div>
     @elseif ($step === 'questions')
         <h1 class="mb-1 text-2xl font-semibold">Wie war es?</h1>
-        <p class="mb-4 text-stone-600">Jede Frage lässt sich überspringen. In den Text kommt nur, was du hier schreibst.</p>
+        <p class="mb-4 text-stone-600">Jede Frage lässt sich überspringen. Je mehr du schreibst, desto persönlicher und genauer wird der Text.</p>
         <form wire:submit="toOptions" class="space-y-5">
             @foreach ($questions as $index => $question)
                 <label class="block" wire:key="question-{{ $index }}">

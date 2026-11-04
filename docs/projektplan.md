@@ -1,6 +1,8 @@
 # Projektplan erlebt – Bewertungs-Assistent
 
 > Änderung gegenüber dem Plan unten: Statt OpenRouter nutzt die App direkt die Claude API (`ANTHROPIC_API_KEY`, offizielles PHP-SDK).
+>
+> Zweite Änderung: Bewertungen anderer gehen jetzt auch in den Text-Prompt, aber nur als Sachinfos über den Ort, nie als eigenes Erlebnis. Gespeichert werden sie weiterhin nicht.
 
 ## Kontext
 

@@ -27,7 +27,7 @@
         </button>
     </div>
 
-    <p class="mb-6 text-sm text-stone-600">Bitte lies den Text vor dem Veröffentlichen noch einmal selbst.</p>
+    <p class="mb-6 text-sm text-stone-600">Bitte lies den Text vor dem Veröffentlichen selbst. Er kann Sachinfos aus anderen Bewertungen enthalten, prüfe also, ob sie für dich stimmen.</p>
 
     <h2 class="mb-2 font-semibold">Überarbeiten</h2>
     <div class="mb-3 grid grid-cols-2 gap-2">

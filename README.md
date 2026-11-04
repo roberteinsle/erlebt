@@ -2,7 +2,7 @@
 
 Bewertungs-Assistent: Google-Maps-Link einfügen, 4–6 Fragen zum eigenen Besuch beantworten, fertigen Bewertungstext kopieren und selbst bei Google veröffentlichen.
 
-- **Keine erfundenen Details:** Der Text entsteht nur aus deinen Antworten. Fremde Bewertungen regen nur die Fragen an und werden nicht gespeichert.
+- **Keine erfundenen Erlebnisse:** Eigene Erlebnisse stammen nur aus deinen Antworten. Bewertungen anderer regen die Fragen an und können den Text um Sachinfos über den Ort ergänzen. Sie werden nicht gespeichert.
 - **Kein automatisches Posten** und kein Scraping, nur die offizielle Places API.
 - **Für den Eigengebrauch:** ein Login pro Instanz, keine Registrierung. Jede Instanz braucht eigene API-Schlüssel.
 

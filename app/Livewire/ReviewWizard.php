@@ -88,9 +88,6 @@ class ReviewWizard extends Component
 
         $this->questions = $generator->generate(Place::fromArray($this->place));
         $this->answers = array_fill(0, count($this->questions), '');
-
-        // Fremde Bewertungen werden ab hier nicht mehr gebraucht und verlassen den Zustand.
-        $this->place['reviews'] = [];
         $this->error = null;
         $this->step = 'questions';
     }
@@ -129,7 +126,7 @@ class ReviewWizard extends Component
         }
 
         try {
-            $body = $writer->write($this->place['name'], $answered, $this->stars, $this->length, $this->tone);
+            $body = $writer->write($this->place['name'], $answered, $this->stars, $this->length, $this->tone, $this->place['reviews']);
         } catch (UserFacingException $exception) {
             $this->error = $exception->getMessage();
 
