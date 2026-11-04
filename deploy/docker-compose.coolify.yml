@@ -35,6 +35,8 @@ services:
       - MAX_RUNS_PER_DAY=${MAX_RUNS_PER_DAY:-20}
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    networks:
+      - coolify
     volumes:
       - app-storage:/var/www/html/storage
     healthcheck:
@@ -52,10 +54,17 @@ services:
   #   environment:
   #     - AUTORUN_ENABLED=false
   #     # dieselben Variablen wie bei app
+  #   networks:
+  #     - coolify
   #   volumes:
   #     - app-storage:/var/www/html/storage
   #   depends_on:
   #     - app
+
+# Über dieses Netz erreicht die App den Datenbank-Service in Coolify.
+networks:
+  coolify:
+    external: true
 
 volumes:
   app-storage:

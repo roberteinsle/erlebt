@@ -16,7 +16,7 @@ Du brauchst einen [Claude-API](https://console.anthropic.com)-Schlüssel, eine P
 
 1. Inhalt von [`deploy/docker-compose.coolify.yml`](deploy/docker-compose.coolify.yml) als Compose-Ressource anlegen. Das Image `ghcr.io/roberteinsle/erlebt` ist öffentlich.
 2. Variablen setzen: `APP_NAME`, `APP_KEY`, `APP_URL`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `ANTHROPIC_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, optional `GOOGLE_PLACES_API_KEY`. Einen `APP_KEY` erzeugst du mit `echo "base64:$(openssl rand -base64 32)"`.
-3. Domain auf Port `8080` des Dienstes `app` legen und die App mit dem Netz der Datenbank verbinden. In Coolify heißt das „Connect To Predefined Network“; `DB_HOST` ist der interne Hostname der Datenbank.
+3. Domain auf Port `8080` des Dienstes `app` legen. Die App hängt im externen Docker-Netz `coolify` und erreicht darüber die Datenbank; `DB_HOST` ist deren interner Hostname. Außerhalb von Coolify musst du dieses Netz anlegen oder den Netzwerknamen in der Compose-Datei anpassen.
 4. Deployen. Migrationen laufen beim Start automatisch.
 5. Einmalig im Container den Login anlegen: `php artisan db:seed --force`
 
