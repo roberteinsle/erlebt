@@ -1,5 +1,4 @@
 @php
-    $field = 'w-full rounded-lg border border-stone-300 bg-white px-3 py-3 text-base';
     $labels = ['ok' => 'Funktioniert', 'error' => 'Fehler', 'off' => 'Nicht eingerichtet'];
     $colors = ['ok' => 'text-green-800', 'error' => 'text-red-800', 'off' => 'text-stone-600'];
 @endphp
@@ -17,22 +16,8 @@
         @endif
 
         <form wire:submit="save" class="space-y-4">
-            <label class="block">
-                <span class="mb-1 block text-sm font-medium">Modell für die Fragen</span>
-                <select wire:model="questionsModel" class="{{ $field }}">
-                    @foreach ($models as $id => $name)
-                        <option value="{{ $id }}" wire:key="q-{{ $id }}">{{ $name }} ({{ $id }})</option>
-                    @endforeach
-                </select>
-            </label>
-            <label class="block">
-                <span class="mb-1 block text-sm font-medium">Modell für den Bewertungstext</span>
-                <select wire:model="reviewModel" class="{{ $field }}">
-                    @foreach ($models as $id => $name)
-                        <option value="{{ $id }}" wire:key="r-{{ $id }}">{{ $name }} ({{ $id }})</option>
-                    @endforeach
-                </select>
-            </label>
+            <x-model-select label="Modell für die Fragen" property="questionsModel" :models="$models" />
+            <x-model-select label="Modell für den Bewertungstext" property="reviewModel" :models="$models" />
             @if ($error)
                 <p role="alert" class="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{{ $error }}</p>
             @endif

@@ -47,6 +47,16 @@ it('zeigt die Modelle der API, die strukturierte Ausgabe können', function () {
         ->and($component->get('modelsError'))->toBeNull();
 });
 
+it('bietet durchsuchbare Auswahlfelder an', function () {
+    loggedInAdmin();
+    FakeClaude::install(modelsPage());
+
+    Livewire::test(Settings::class)
+        ->assertSeeHtml('role="combobox"')
+        ->assertSee('Modell für die Fragen')
+        ->assertSee('claude-neu');
+});
+
 it('fällt auf eine feste Liste zurück, wenn die API nicht antwortet', function () {
     loggedInAdmin();
     FakeClaude::install(FakeClaude::error(401, 'authentication_error'));
