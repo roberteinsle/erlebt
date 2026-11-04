@@ -10,12 +10,12 @@ Stack: PHP 8.5, Laravel 13, Livewire, Tailwind, PostgreSQL.
 
 ## Selbst hosten
 
-Du brauchst einen [OpenRouter](https://openrouter.ai)-Schlüssel, eine PostgreSQL-Datenbank und optional einen Schlüssel für die Google Places API (New). Ohne Google-Schlüssel gibst du den Ortsnamen selbst ein und bekommst allgemeine Fragen.
+Du brauchst einen [Claude-API](https://console.anthropic.com)-Schlüssel, eine PostgreSQL-Datenbank und optional einen Schlüssel für die Google Places API (New). Ohne Google-Schlüssel gibst du den Ortsnamen selbst ein und bekommst allgemeine Fragen.
 
 **Coolify oder jeder andere Compose-Host:**
 
 1. Inhalt von [`deploy/docker-compose.coolify.yml`](deploy/docker-compose.coolify.yml) als Compose-Ressource anlegen. Das Image `ghcr.io/roberteinsle/erlebt` ist öffentlich.
-2. Variablen setzen: `APP_NAME`, `APP_KEY`, `APP_URL`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `OPENROUTER_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, optional `GOOGLE_PLACES_API_KEY`. Einen `APP_KEY` erzeugst du mit `echo "base64:$(openssl rand -base64 32)"`.
+2. Variablen setzen: `APP_NAME`, `APP_KEY`, `APP_URL`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `ANTHROPIC_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, optional `GOOGLE_PLACES_API_KEY`. Einen `APP_KEY` erzeugst du mit `echo "base64:$(openssl rand -base64 32)"`.
 3. Domain auf Port `8080` des Dienstes `app` legen und die App mit dem Netz der Datenbank verbinden. In Coolify heißt das „Connect To Predefined Network“; `DB_HOST` ist der interne Hostname der Datenbank.
 4. Deployen. Migrationen laufen beim Start automatisch.
 5. Einmalig im Container den Login anlegen: `php artisan db:seed --force`

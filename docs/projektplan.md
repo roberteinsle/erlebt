@@ -1,5 +1,7 @@
 # Projektplan erlebt – Bewertungs-Assistent
 
+> Änderung gegenüber dem Plan unten: Statt OpenRouter nutzt die App direkt die Claude API (`ANTHROPIC_API_KEY`, offizielles PHP-SDK).
+
 ## Kontext
 
 **erlebt** macht aus einem Google-Maps-Link und 4–6 gezielten Fragen einen fertigen Bewertungstext, nutzbar am Rechner und am iPhone. Das Repo ist bis auf die README leer. Die App wird nach deinem Deploy-Standard gebaut, der Betrieb läuft über GHCR und Coolify.

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Anthropic\Client;
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(Client::class, fn () => new Client(
+            apiKey: config('services.anthropic.key'),
+            requestOptions: [
+                // Das SDK setzt keinen Timeout durch, das muss der HTTP-Client tun.
+                // Zwei Versuche bleiben so unter PHP_MAX_EXECUTION_TIME (99 s).
+                'transporter' => new GuzzleClient(['timeout' => 45, 'connect_timeout' => 5]),
+                'maxRetries' => 1,
+            ],
+        ));
     }
 
     /**

@@ -18,7 +18,7 @@
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="/>
         <env name="GOOGLE_PLACES_API_KEY" value="test"/>
-        <env name="OPENROUTER_API_KEY" value="test"/>
+        <env name="ANTHROPIC_API_KEY" value="test"/>
         <env name="MAX_RUNS_PER_DAY" value="20"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>

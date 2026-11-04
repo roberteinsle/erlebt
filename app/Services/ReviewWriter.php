@@ -31,26 +31,23 @@ class ReviewWriter
     - Gib nur den fertigen Text aus, ohne Überschrift, Anführungszeichen oder Kommentar.
     PROMPT;
 
-    public function __construct(private OpenRouterClient $openRouter) {}
+    public function __construct(private ClaudeClient $claude) {}
 
     /** @param list<array{frage: string, antwort: string}> $answers */
     public function write(string $placeName, array $answers, int $stars, string $length, string $tone): string
     {
-        return $this->send([
-            ['role' => 'system', 'content' => self::RULES],
-            ['role' => 'user', 'content' => $this->brief($placeName, $answers, $stars, $length, $tone)],
-        ]);
+        return $this->send(self::RULES, $this->brief($placeName, $answers, $stars, $length, $tone));
     }
 
     /** @param list<array{frage: string, antwort: string}> $answers */
     public function revise(string $placeName, array $answers, int $stars, string $length, string $tone, string $current, string $instruction): string
     {
-        return $this->send([
-            ['role' => 'system', 'content' => self::RULES."\n- Ein Änderungswunsch darf keine neuen Fakten erfinden, außer die Person nennt sie im Wunsch selbst."],
-            ['role' => 'user', 'content' => $this->brief($placeName, $answers, $stars, $length, $tone)
+        return $this->send(
+            self::RULES."\n- Ein Änderungswunsch darf keine neuen Fakten erfinden, außer die Person nennt sie im Wunsch selbst.",
+            $this->brief($placeName, $answers, $stars, $length, $tone)
                 ."\n\nBisheriger Text:\n".$current
-                ."\n\nÄnderungswunsch:\n".$instruction],
-        ]);
+                ."\n\nÄnderungswunsch:\n".$instruction,
+        );
     }
 
     public function model(): string
@@ -58,9 +55,9 @@ class ReviewWriter
         return config('erlebt.models.review');
     }
 
-    private function send(array $messages): string
+    private function send(string $system, string $user): string
     {
-        return $this->openRouter->chat($this->model(), $messages);
+        return $this->claude->complete($this->model(), $system, $user);
     }
 
     /** @param list<array{frage: string, antwort: string}> $answers */

@@ -11,8 +11,8 @@ return [
     ],
 
     'models' => [
-        'questions' => env('MODEL_QUESTIONS', 'anthropic/claude-haiku-5.5'),
-        'review' => env('MODEL_REVIEW', 'anthropic/claude-sonnet-5.5'),
+        'questions' => env('MODEL_QUESTIONS', 'claude-haiku-5-5'),
+        'review' => env('MODEL_REVIEW', 'claude-sonnet-5-5'),
     ],
 
     'source_url' => env('SOURCE_URL', 'https://github.com/roberteinsle/erlebt'),

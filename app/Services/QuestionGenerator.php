@@ -21,6 +21,8 @@ class QuestionGenerator
     kurze mögliche Antwort). Antworte ausschließlich mit JSON der Form {"fragen": [...]}.
     PROMPT;
 
+    private const RETRY_ONLY_WITHIN_SECONDS = 30;
+
     private const SCHEMA = [
         'type' => 'object',
         'additionalProperties' => false,
@@ -50,19 +52,21 @@ class QuestionGenerator
         ['frage' => 'Wie fandest du das Preis-Leistungs-Verhältnis?', 'warum' => 'Hilft anderen bei der Entscheidung.', 'beispiel' => 'Fair für die Qualität'],
     ];
 
-    public function __construct(private OpenRouterClient $openRouter) {}
+    public function __construct(private ClaudeClient $claude) {}
 
     /** @return list<array{frage: string, warum: string, beispiel: string}> */
     public function generate(Place $place): array
     {
-        $messages = [
-            ['role' => 'system', 'content' => self::SYSTEM_PROMPT],
-            ['role' => 'user', 'content' => $this->userPrompt($place)],
-        ];
+        $started = microtime(true);
 
         for ($attempt = 0; $attempt < 2; $attempt++) {
+            // Ein zweiter Versuch darf die Ausführungszeit des Requests nicht sprengen.
+            if ($attempt > 0 && microtime(true) - $started > self::RETRY_ONLY_WITHIN_SECONDS) {
+                break;
+            }
+
             try {
-                $content = $this->openRouter->chat(config('erlebt.models.questions'), $messages, self::SCHEMA);
+                $content = $this->claude->complete(config('erlebt.models.questions'), self::SYSTEM_PROMPT, $this->userPrompt($place), self::SCHEMA);
             } catch (UserFacingException) {
                 break;
             }

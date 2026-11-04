@@ -28,10 +28,10 @@ services:
       - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
 
       # --- Projektspezifisch: beim Kopieren anpassen ---
-      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY:-}
-      - MODEL_QUESTIONS=${MODEL_QUESTIONS:-anthropic/claude-haiku-5.5}
-      - MODEL_REVIEW=${MODEL_REVIEW:-anthropic/claude-sonnet-5.5}
+      - MODEL_QUESTIONS=${MODEL_QUESTIONS:-claude-haiku-5-5}
+      - MODEL_REVIEW=${MODEL_REVIEW:-claude-sonnet-5-5}
       - MAX_RUNS_PER_DAY=${MAX_RUNS_PER_DAY:-20}
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}

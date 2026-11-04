@@ -4,13 +4,13 @@ use App\Livewire\ReviewShow;
 use App\Livewire\ReviewWizard;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
+use Tests\Support\FakeClaude;
 
 const FOREIGN_REVIEW = 'FREMDER-TEXT-Wildschwein-Marker';
 
-function fakeApis(): void
+function fakeApis(): FakeClaude
 {
     Http::fake([
         'places.googleapis.com/v1/places:searchText' => Http::response(['places' => [['id' => 'abc']]]),
@@ -22,19 +22,16 @@ function fakeApis(): void
             'userRatingCount' => 120,
             'reviews' => [['text' => ['text' => FOREIGN_REVIEW]]],
         ]),
-        'openrouter.ai/*' => function (Request $request) {
-            $content = isset($request['response_format'])
-                ? json_encode(['fragen' => [
-                    ['frage' => 'Wie war das Zimmer?', 'warum' => 'w', 'beispiel' => 'b'],
-                    ['frage' => 'Wie war das Frühstück?', 'warum' => 'w', 'beispiel' => 'b'],
-                    ['frage' => 'Wie war der Service?', 'warum' => 'w', 'beispiel' => 'b'],
-                    ['frage' => 'Wie war die Lage?', 'warum' => 'w', 'beispiel' => 'b'],
-                ]])
-                : 'Ein erzeugter Text.';
-
-            return Http::response(['choices' => [['message' => ['content' => $content]]]]);
-        },
     ]);
+
+    return FakeClaude::install(fn (int $call, array $request) => isset($request['output_config'])
+        ? json_encode(['fragen' => [
+            ['frage' => 'Wie war das Zimmer?', 'warum' => 'w', 'beispiel' => 'b'],
+            ['frage' => 'Wie war das Frühstück?', 'warum' => 'w', 'beispiel' => 'b'],
+            ['frage' => 'Wie war der Service?', 'warum' => 'w', 'beispiel' => 'b'],
+            ['frage' => 'Wie war die Lage?', 'warum' => 'w', 'beispiel' => 'b'],
+        ]])
+        : 'Ein erzeugter Text.');
 }
 
 function wizardAtQuestions()
@@ -74,17 +71,53 @@ it('fuehrt vom Ort bis zum gespeicherten Text', function () {
 });
 
 it('schickt fremde Bewertungen nur an den Fragen-Aufruf und speichert sie nie', function () {
+    $claude = fakeApis();
+
+    wizardAtQuestions()->set('answers.0', 'Gut')->call('toOptions')->set('stars', 5)->call('generate');
+
+    [$questionCall, $writeCall] = $claude->requests;
+
+    expect(json_encode($questionCall))->toContain(FOREIGN_REVIEW)
+        ->and(json_encode($writeCall))->not->toContain(FOREIGN_REVIEW)
+        ->and(json_encode(Review::sole()->toArray()))->not->toContain(FOREIGN_REVIEW);
+});
+
+it('nutzt die konfigurierten Modelle und den Fallback', function () {
+    $claude = fakeApis();
+
+    wizardAtQuestions()->set('answers.0', 'Gut')->call('toOptions')->set('stars', 5)->call('generate');
+
+    expect($claude->requests[0]['model'])->toBe('claude-haiku-5-5')
+        ->and($claude->requests[1]['model'])->toBe('claude-sonnet-5-5')
+        ->and($claude->requests[1]['fallbacks'])->toBe('default')
+        ->and($claude->headers[1]['anthropic-beta'] ?? [])->toContain('server-side-fallback-2026-07-01')
+        ->and($claude->requests[1]['system'])->toContain('nur Fakten aus den Antworten');
+});
+
+it('zeigt eine Ablehnung und speichert nichts', function () {
     fakeApis();
+    $component = wizardAtQuestions()->set('answers.0', 'Gut')->call('toOptions')->set('stars', 5);
+    FakeClaude::install(FakeClaude::refusal());
 
-    $component = wizardAtQuestions()->set('answers.0', 'Gut')->call('toOptions')->set('stars', 5)->call('generate');
+    $component->call('generate')->assertSet('error', fn ($error) => str_contains($error, 'abgelehnt'));
 
-    Http::assertSent(fn (Request $r) => isset($r['response_format'])
-        && str_contains($r->body(), FOREIGN_REVIEW));
-    Http::assertNotSent(fn (Request $r) => ! isset($r['response_format'])
-        && str_contains($r->url(), 'openrouter.ai')
-        && str_contains($r->body(), FOREIGN_REVIEW));
+    expect(Review::count())->toBe(0);
+});
 
-    expect(json_encode(Review::sole()->toArray()))->not->toContain(FOREIGN_REVIEW);
+it('meldet einen ungültigen Schlüssel verständlich', function () {
+    fakeApis();
+    $component = wizardAtQuestions()->set('answers.0', 'Gut')->call('toOptions')->set('stars', 5);
+    FakeClaude::install(FakeClaude::error(401, 'authentication_error'));
+
+    $component->call('generate')->assertSet('error', fn ($error) => str_contains($error, 'ANTHROPIC_API_KEY'));
+});
+
+it('verlangt einen Schlüssel', function () {
+    fakeApis();
+    $component = wizardAtQuestions()->set('answers.0', 'Gut')->call('toOptions')->set('stars', 5);
+    config(['services.anthropic.key' => null]);
+
+    $component->call('generate')->assertSet('error', fn ($error) => str_contains($error, 'ANTHROPIC_API_KEY'));
 });
 
 it('entfernt fremde Bewertungen nach den Fragen aus dem Zustand', function () {
@@ -159,7 +192,7 @@ function storedReview(User $user): Review
 
 it('ueberarbeitet und behaelt alte Versionen', function () {
     $review = storedReview($this->user);
-    Http::fake(['openrouter.ai/*' => Http::response(['choices' => [['message' => ['content' => 'Kurze Fassung.']]]])]);
+    $claude = FakeClaude::install('Kurze Fassung.');
 
     Livewire::test(ReviewShow::class, ['review' => $review])
         ->call('revisePreset', 'kuerzer')
@@ -168,12 +201,12 @@ it('ueberarbeitet und behaelt alte Versionen', function () {
 
     expect($review->versions()->count())->toBe(2)
         ->and($review->latestVersion()->first()->instruction)->toBe('Mach den Text deutlich kürzer.');
-    Http::assertSent(fn (Request $r) => str_contains($r->body(), 'Erste Fassung.'));
+    expect(json_encode($claude->requests[0]))->toContain('Erste Fassung.');
 });
 
 it('setzt freie Änderungswünsche um und lehnt leere ab', function () {
     $review = storedReview($this->user);
-    Http::fake(['openrouter.ai/*' => Http::response(['choices' => [['message' => ['content' => 'Neu.']]]])]);
+    FakeClaude::install('Neu.');
 
     Livewire::test(ReviewShow::class, ['review' => $review])
         ->call('reviseCustom')
@@ -187,7 +220,7 @@ it('setzt freie Änderungswünsche um und lehnt leere ab', function () {
 
 it('behaelt den Text, wenn die Ueberarbeitung scheitert', function () {
     $review = storedReview($this->user);
-    Http::fake(['openrouter.ai/*' => Http::response([], 500)]);
+    FakeClaude::install(FakeClaude::error(500, 'api_error'));
 
     Livewire::test(ReviewShow::class, ['review' => $review])
         ->call('revisePreset', 'kuerzer')

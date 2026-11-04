@@ -39,8 +39,8 @@ return [
         'key' => env('GOOGLE_PLACES_API_KEY'),
     ],
 
-    'openrouter' => [
-        'key' => env('OPENROUTER_API_KEY'),
+    'anthropic' => [
+        'key' => env('ANTHROPIC_API_KEY'),
     ],
 
 ];
