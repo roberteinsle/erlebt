@@ -8,6 +8,8 @@ Bewertungs-Assistent: Google-Maps-Link einfügen, 4–6 Fragen zum eigenen Besuc
 
 Stack: PHP 8.5, Laravel 13, Livewire, Tailwind, PostgreSQL.
 
+Projektseite: [erlebt.einsle.app](https://erlebt.einsle.app) (Quelle in [`site/`](site/), veröffentlicht über GitHub Pages).
+
 ## Selbst hosten
 
 Du brauchst einen [Claude-API](https://console.anthropic.com)-Schlüssel, eine PostgreSQL-Datenbank und optional einen Schlüssel für die Google Places API (New). Ohne Google-Schlüssel gibst du den Ortsnamen selbst ein und bekommst allgemeine Fragen.

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>erlebt · Ehrliche Bewertungen, ohne lange zu formulieren</title>
+  <meta name="description" content="erlebt macht aus einem Link aus Google Maps und vier bis sechs Fragen zu deinem Besuch einen fertigen Bewertungstext. Open Source unter AGPL 3.0, zum Selbsthosten mit Docker Compose.">
+  <link rel="canonical" href="https://erlebt.einsle.app/">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://erlebt.einsle.app/">
+  <meta property="og:title" content="erlebt · Ehrliche Bewertungen, ohne lange zu formulieren">
+  <meta property="og:description" content="Vom Link aus Google Maps zum fertigen Bewertungstext in wenigen Fragen. Open Source, zum Selbsthosten.">
+  <meta property="og:image" content="https://erlebt.einsle.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="assets/main.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "erlebt",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+    "url": "https://erlebt.einsle.app/",
+    "codeRepository": "https://github.com/roberteinsle/erlebt",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  }
+  </script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-github" viewBox="0 0 256 256" fill="currentColor"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 256 256" fill="currentColor"><path d="M168,112a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,112Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm72-8A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol>
+    <symbol id="i-mobile" viewBox="0 0 256 256" fill="currentColor"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></symbol>
+    <symbol id="i-server" viewBox="0 0 256 256" fill="currentColor"><path d="M208,136H48a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136Zm0,64H48V152H208v48Zm0-160H48A16,16,0,0,0,32,56v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Zm0,64H48V56H208v48ZM192,80a12,12,0,1,1-12-12A12,12,0,0,1,192,80Zm0,96a12,12,0,1,1-12-12A12,12,0,0,1,192,176Z"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 256 256" fill="currentColor"><path d="M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></symbol>
+  </svg>
+
+  <a class="skip-link button-sm" href="#inhalt">Zum Inhalt springen</a>
+
+  <header>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a class="brand title-3" href="#top" aria-label="erlebt, zum Seitenanfang">
+        <img src="assets/favicon.svg" alt="" width="24" height="24">erlebt
+      </a>
+      <ul class="nav-links title-4">
+        <li><a href="#vorteile">Vorteile</a></li>
+        <li><a href="#ablauf">So geht es</a></li>
+        <li><a href="#selbst-hosten">Selbst hosten</a></li>
+        <li><a href="#fragen">Fragen</a></li>
+      </ul>
+      <a class="btn btn-primary button-sm" href="https://github.com/roberteinsle/erlebt">
+        <svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>GitHub
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen">
+        <span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+      <ul class="heading-5">
+        <li><a href="#vorteile">Vorteile</a></li>
+        <li><a href="#ablauf">So geht es</a></li>
+        <li><a href="#selbst-hosten">Selbst hosten</a></li>
+        <li><a href="#fragen">Fragen</a></li>
+        <li><a class="btn btn-primary button-md" href="https://github.com/roberteinsle/erlebt"><svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Quellcode auf GitHub ansehen</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="inhalt">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1 class="heading-1 gradient-text" id="hero-title">Ehrliche Bewertungen,<br> ohne lange zu formulieren</h1>
+          <p class="lead title-2">erlebt macht aus einem Link aus Google Maps und vier bis sechs Fragen zu deinem Besuch einen fertigen Bewertungstext. Du liest ihn, kopierst ihn und veröffentlichst ihn selbst.</p>
+          <a class="btn btn-primary btn-lg button-md" href="https://github.com/roberteinsle/erlebt">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Quellcode auf GitHub ansehen
+          </a>
+          <ul class="proof caption-2" aria-label="Eckdaten">
+            <li>Open Source unter AGPL 3.0</li>
+            <li>Laravel 13 und PHP 8.5</li>
+            <li>Texte von Claude</li>
+          </ul>
+        </div>
+        <figure>
+          <div class="phone">
+            <img src="assets/img/schritt-3-text.jpg" width="1170" height="1992" alt="Ergebnisseite von erlebt am Handy: ein fertiger Bewertungstext über einen Landgasthof mit Knopf zum Kopieren">
+          </div>
+          <figcaption class="figcaption caption-5 muted">Beispiel mit einem fiktiven Gasthof</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section-alt reveal" aria-labelledby="problem-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="heading-3" id="problem-title">Der Besuch war gut. Das Textfeld bleibt leer.</h2>
+          <p class="title-2">Eine Bewertung hilft anderen nur, wenn sie konkret ist. Genau das kostet Zeit, und deshalb schreibt man sie meistens nie.</p>
+        </div>
+        <div class="split">
+          <div class="panel">
+            <h3 class="heading-6">Ohne erlebt</h3>
+            <p class="body-3 muted">Ein leeres Feld, ein Satz wie „War super, gerne wieder“ und keine Antwort auf das, was andere wissen wollen: Was habt ihr gegessen, wie war der Service, lohnt sich der Preis?</p>
+          </div>
+          <div class="panel">
+            <h3 class="heading-6">Mit erlebt</h3>
+            <p class="body-3 muted">Gezielte Fragen zu genau diesem Ort. Du antwortest in Stichworten, erlebt formuliert daraus einen zusammenhängenden Text in der Länge und im Ton, den du wählst.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="vorteile" aria-labelledby="vorteile-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="heading-3" id="vorteile-title">Weniger tippen, mehr sagen</h2>
+          <p class="title-2">erlebt nimmt dir das Formulieren ab, nicht das Erleben.</p>
+        </div>
+        <div class="grid-4">
+          <article class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg></span>
+            <h3 class="heading-6">Fragen statt leerem Feld</h3>
+            <p class="body-3 muted">Die Fragen passen zum Ort: Gerichte und Service im Restaurant, Zimmer und Frühstück im Hotel, Termintreue beim Handwerker. Was andere oft erwähnen, wird zur Frage.</p>
+          </article>
+          <article class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+            <h3 class="heading-6">Nur, was du erlebt hast</h3>
+            <p class="body-3 muted">Eigene Erlebnisse stammen ausschließlich aus deinen Antworten. Bewertungen anderer ergänzen höchstens Sachinfos über den Ort und werden nicht gespeichert.</p>
+          </article>
+          <article class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-mobile"/></svg></span>
+            <h3 class="heading-6">Gemacht für das Handy</h3>
+            <p class="body-3 muted">Läuft im Browser, direkt nach dem Besuch. Ein Knopf kopiert den Text, und mit „kürzer“ oder „persönlicher“ passt du ihn an.</p>
+          </article>
+          <article class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-server"/></svg></span>
+            <h3 class="heading-6">Deine Instanz, deine Schlüssel</h3>
+            <p class="body-3 muted">Du betreibst erlebt selbst, mit eigenem Login und eigenen API Schlüsseln. Ein Tageslimit hält die Kosten im Griff.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tagline section-alt" aria-label="Leitgedanke">
+      <div class="container">
+        <p class="heading-2" data-words>Du erzählst, was du erlebt hast. erlebt findet die Worte, die anderen bei ihrer Entscheidung helfen.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="ablauf" aria-labelledby="ablauf-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="heading-3" id="ablauf-title">In drei Schritten zum fertigen Text</h2>
+          <p class="title-2">Ein Durchlauf dauert nur wenige Minuten, am Rechner wie am Handy.</p>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-label title-3"><span class="step-num button-sm">1</span>Link einfügen</span>
+            <p class="body-3 muted">Kopiere den Link aus Google Maps oder tippe den Namen des Orts. erlebt erkennt Name, Adresse und Gesamtnote.</p>
+            <div class="phone"><img src="assets/img/schritt-1-link.jpg" width="1170" height="1992" loading="lazy" alt="Startseite von erlebt mit eingefügtem Link aus Google Maps"></div>
+          </li>
+          <li class="step">
+            <span class="step-label title-3"><span class="step-num button-sm">2</span>Fragen beantworten</span>
+            <p class="body-3 muted">Vier bis sechs Fragen zu deinem Besuch, jede lässt sich überspringen. Danach wählst du Sterne, Länge und Ton.</p>
+            <div class="phone"><img src="assets/img/schritt-2-fragen.jpg" width="1170" height="1992" loading="lazy" alt="Fragen zum Besuch im Landgasthof mit ausgefüllten Antworten"></div>
+          </li>
+          <li class="step">
+            <span class="step-label title-3"><span class="step-num button-sm">3</span>Lesen, kopieren, posten</span>
+            <p class="body-3 muted">Der Text erscheint mit einem Knopf zum Kopieren. Du prüfst ihn und veröffentlichst ihn selbst bei Google.</p>
+            <div class="phone"><img src="assets/img/schritt-3-text.jpg" width="1170" height="1992" loading="lazy" alt="Fertiger Bewertungstext mit Knopf zum Kopieren"></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section-alt reveal" id="selbst-hosten" aria-labelledby="host-title">
+      <div class="container host-grid">
+        <div class="section-head">
+          <h2 class="heading-3" id="host-title">In wenigen Minuten selbst betrieben</h2>
+          <p class="title-2">erlebt ist ein fertiges Docker Image. Du brauchst nur eine Compose Datei, eine Datenbank und deine Schlüssel.</p>
+          <ul class="checklist body-3">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-server"/></svg><span><strong>Ein Server mit Docker</strong>, zum Beispiel mit Coolify</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span><strong>PostgreSQL</strong> als eigener Dienst mit Backup</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg><span><strong>Ein Schlüssel für die Claude API</strong> von Anthropic</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-gauge"/></svg><span><strong>Optional Google Places</strong> für ortsgenaue Fragen</span></li>
+          </ul>
+          <div>
+            <a class="btn btn-ghost button-md" href="https://github.com/roberteinsle/erlebt#selbst-hosten">Anleitung im README lesen<svg class="icon-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+        <pre class="code" aria-label="Ausschnitt aus der Compose Datei"><code><span class="c"># deploy/docker-compose.coolify.yml (Auszug)</span>
+services:
+  app:
+    image: ghcr.io/roberteinsle/erlebt:latest
+    environment:
+      - APP_KEY=${APP_KEY}
+      - APP_URL=${APP_URL}
+      - DB_HOST=${DB_HOST}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY:-}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    networks:
+      - coolify</code></pre>
+      </div>
+    </section>
+
+    <section class="section reveal" id="fragen" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="heading-3" id="faq-title">Häufige Fragen</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary class="title-2">Was kostet erlebt?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Die Software ist kostenlos und steht unter der AGPL 3.0. Kosten entstehen nur bei den Diensten, die du anbindest: Die Claude API rechnet Anthropic nach Verbrauch ab, Google Places hat ein monatliches Freikontingent. Ein Tageslimit in der App begrenzt die Zahl der Durchläufe.</p>
+          </details>
+          <details>
+            <summary class="title-2">Veröffentlicht erlebt meine Bewertung bei Google?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Nein. erlebt erzeugt nur den Text. Du kopierst ihn und veröffentlichst ihn selbst, nachdem du ihn gelesen hast.</p>
+          </details>
+          <details>
+            <summary class="title-2">Erfindet erlebt Details?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Eigene Erlebnisse stammen nur aus deinen Antworten. Sachinfos über den Ort, etwa zum Angebot oder zur Lage, können aus anderen Bewertungen ergänzt werden. Ein Sprachmodell kann trotzdem danebenliegen, deshalb liest du jeden Text vor dem Veröffentlichen.</p>
+          </details>
+          <details>
+            <summary class="title-2">Liest erlebt Google Maps automatisch aus?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Nein, es gibt kein Scraping. erlebt nutzt ausschließlich die offizielle Places API. Sie liefert pro Ort höchstens fünf Bewertungen, die nur für die Fragen und Sachinfos verwendet werden.</p>
+          </details>
+          <details>
+            <summary class="title-2">Brauche ich einen Schlüssel für Google Places?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Nein. Ohne Schlüssel gibst du den Namen des Orts selbst ein und bekommst allgemeine Fragen statt ortsgenauer.</p>
+          </details>
+          <details>
+            <summary class="title-2">Welche Modelle verwendet erlebt?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Standardmäßig Claude Haiku 5.5 für die Fragen und Claude Sonnet 5.5 für den Text. In den Einstellungen der App wählst du andere Modelle und prüfst, ob alle Schnittstellen funktionieren.</p>
+          </details>
+          <details>
+            <summary class="title-2">Gibt es eine öffentliche Instanz zum Ausprobieren?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Nein. erlebt ist für den Eigengebrauch gedacht: Jede Instanz hat einen Login und läuft mit den Schlüsseln ihres Betreibers.</p>
+          </details>
+          <details>
+            <summary class="title-2">Was wird gespeichert?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">In deiner eigenen Datenbank liegen der Ort, deine Antworten und die erzeugten Texte, damit du sie im Verlauf wiederfindest. Bewertungen anderer werden nicht gespeichert. Für die Texte gehen Anfragen an Anthropic und, falls eingerichtet, an Google.</p>
+          </details>
+          <details>
+            <summary class="title-2">Passt das zu den Richtlinien von Google?<svg class="icon-sm" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p class="body-3">Bewerte nur Orte, die du selbst besucht hast. erlebt hilft beim Formulieren, für Inhalt und Veröffentlichung bist du verantwortlich.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt reveal" aria-labelledby="final-title">
+      <div class="container final">
+        <h2 class="heading-3" id="final-title">Bereit für deine eigene Instanz?</h2>
+        <p class="title-2 muted">Kostenlos und quelloffen. Du zahlst nur die Nutzung der APIs direkt bei Anthropic und Google, ohne Abo und ohne Vertrag.</p>
+        <a class="btn btn-primary btn-lg button-md" href="https://github.com/roberteinsle/erlebt">
+          <svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Quellcode auf GitHub ansehen
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-row">
+      <p class="caption-2 muted">erlebt ist ein Projekt von Robert Einsle.</p>
+      <ul class="footer-links caption-1">
+        <li><a href="https://github.com/roberteinsle/erlebt">GitHub</a></li>
+        <li><a href="https://github.com/roberteinsle/erlebt/blob/main/LICENSE">Lizenz</a></li>
+        <li><a href="https://www.einsle.com/impressum">Impressum</a></li>
+        <li><a href="https://www.einsle.com/datenschutz">Datenschutz</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

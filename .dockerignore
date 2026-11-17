@@ -18,3 +18,4 @@ tests
 docker-compose.yml
 deploy
 docs
+site
